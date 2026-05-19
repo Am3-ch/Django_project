@@ -1,5 +1,5 @@
 body {
-  background: #fafafa;
+  background: #ffffff;
   color: #333333;
   margin-top: 5rem;
 }
@@ -13,7 +13,7 @@ ul {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+  background-color: #1E3A5F;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -29,10 +29,11 @@ ul {
 }
 
 .content-section {
-  background: #ffffff;
+  background: #F5F5F5;
   padding: 10px 20px;
   border: 1px solid #dddddd;
-  border-radius: 3px;
+  border-radius: 4px;
+  border-color: #F4A261;
   margin-bottom: 20px;
 }
 
@@ -53,12 +54,13 @@ a.article-title:hover {
   height: 65px;
   width: 65px;
   margin-right: 16px;
+  margin-bottom: 4px;
 }
 
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #F4A261
 }
 
 .article-metadata a:hover {
@@ -79,6 +81,40 @@ a.article-title:hover {
   margin-bottom: 16px;
 }
 
+.media {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.media-body {
+  padding-top: 20px;
+  position: sticky;
+  min-width: 0;
+}
+
 .account-heading {
-  font-size: 2.5rem;
+   font-size: 200%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-secondary {
+  font-size: 100%;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .account-heading {
+    font-size: 1.4rem;
+  }
+
+  .text-secondary {
+    font-size: 0.9rem;
+  }
+
+  .content-section {
+    padding: 10px;
+  }
 }
