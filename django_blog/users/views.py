@@ -35,3 +35,6 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
+def landing_page(request):
+    return render(request, 'users/landing_page.html')

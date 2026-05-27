@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+{% block body_class %}no-navbar{% endblock %}
+{% block content %}
+<div id="Land-wrapper">
+  <div id="Land-left-panel">
+	<div id="Land-brand">
+    	<span>MyMentor</span>
+  	</div>
+    <div id="Land-quote">
+      <p>"The right mentor can change the entire trajectory of your career."</p>
+      <span>— MyMentor community</span>
+    </div>
+  </div>
+  <div id="Land-container">
+	<div id="Land-mobile-brand">MyMentor</div>
+    <h1>Are you looking for a mentor or a mentee?</h1>
+    <img id="Land-img" src="../../../media/image_1.png" alt="person">
+    <div class="button-container">
+      <a href="https://mymentor-oped.onrender.com/register/" class="single-button">
+        <img class="button-icon" src="../../../media/12484179.png" alt="logo">
+        <strong>Create an account</strong>
+      </a>
+      <a href="#" class="single-button">
+        <img class="button-icon" src="../../../media/google_logo_icon_169090.webp" alt="logo">
+        <strong>Continue with Google</strong>
+      </a>
+    </div>
+    <p>have an account?</p>
+    <a href="https://mymentor-oped.onrender.com/login/" class="sign-in-link"><strong>Sign in</strong></a>
+  </div>
+</div>
+{% endblock content %}

@@ -105,16 +105,261 @@ a.article-title:hover {
   word-break: break-word;
 }
 
-@media (max-width: 768px) {
-  .account-heading {
-    font-size: 1.4rem;
+/* ── Wrapper: stacks vertically on mobile, side-by-side on desktop ── */
+#Land-wrapper {
+  display: flex;
+  min-height: calc(100vh - 56px); /* subtract navbar height */
+}
+
+/* ── Left decorative panel (hidden on mobile) ── */
+#Land-left-panel {
+  display: none;
+}
+
+/* ── Right content panel ── */
+#Land-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  background: #ffffff;
+}
+
+#Land-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+  max-width: 360px;
+  margin-bottom: 28px;
+}
+
+#Land-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 32px;
+  border: 3px solid #e8eef6;
+  box-shadow: 0 0 0 6px rgba(30, 58, 95, 0.08);
+}
+
+/* ── Buttons ── */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 24px;
+}
+
+.single-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  background-color: #111827;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+
+.single-button:hover {
+  background-color: #1E3A5F;
+  transform: translateY(-1px);
+}
+
+.single-button strong {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.button-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.12);
+  border-radius: 50%;
+  padding: 4px;
+}
+
+/* ── Sign in link ── */
+#Land-container p {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.sign-in-link {
+  color: #1E3A5F;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sign-in-link:hover {
+  text-decoration: underline;
+}
+
+#Land-left-panel {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+#Land-quote {
+  display: none;
+}
+
+#Land-brand {
+  display: none;
+}
+
+#Land-mobile-brand {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1E3A5F;
+  letter-spacing: 0.03em;
+  margin-bottom: 32px;
+}
+
+/* DESKTOP  (769px and above) */
+@media (min-width: 769px) {
+
+  #Land-mobile-brand {
+    display: none;
   }
 
-  .text-secondary {
-    font-size: 0.9rem;
+  #Land-brand {
+    display: block;
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
-  .content-section {
-    padding: 10px;
+  /* Hide navbar */
+  .no-navbar .site-header {
+    display: none;
+  }
+
+  /* Break out of Bootstrap's container/row/col */
+  .no-navbar main.container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .no-navbar main .row {
+    margin: 0 !important;
+  }
+
+  .no-navbar main .col-md-8 {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Now the actual layout */
+  .no-navbar #Land-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+
+  #Land-quote {
+    display: block !important;
+    padding: 0 32px 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    word-break: break-word;
+  }
+
+  .no-navbar #Land-left-panel {
+    display: block;
+    width: 35%;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: #1E3A5F;
+    background-image:
+      radial-gradient(ellipse at 30% 65%, rgba(255, 200, 100, 0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 20%, rgba(100, 160, 255, 0.11) 0%, transparent 50%),
+      radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+    background-size: auto, auto, 22px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .no-navbar #Land-container {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    overflow-y: auto;
+    background: #ffffff;
+  }
+
+  #Land-quote p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  #Land-quote span {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    letter-spacing: 0.04em;
   }
 }
+
+
+/* MOBILE  (768px and below) */
+@media (max-width: 768px) {
+  
+   .no-navbar .site-header {
+    display: none;
+  }
+
+  /* Remove the margin-top that compensates for the navbar */
+  .no-navbar body {
+    margin-top: 0;
+  }
+
+  #Land-container h1 {
+    font-size: 1.6rem;
+  }
+
+  #Land-img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .button-container {
+    max-width: 270px;
+  }
+}
+
+
