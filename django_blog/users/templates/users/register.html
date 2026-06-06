@@ -1,21 +1,39 @@
 {% extends 'blog/base.html' %}
-{% load crispy_forms_tags  %}
+{% load crispy_forms_tags %}
+{% block body_class %}no-navbar{% endblock %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-                {% csrf_token %}
-                <fieldsetn class="form-group">
-                        <legend class="border-bottm mb-4">Join Today</legend>
-                        {{ form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Sign Up</button>
-                </div> 
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Already have an Account? <a class="ml-2" href="{% url 'login' %}">Login</a>
-            </small>
-        </div>
+<div id="Land-wrapper">
+
+  <div id="Land-left-panel">
+    <div id="Land-brand">MyMentor</div>
+    <div id="Land-quote">
+      <p>"The right mentor can change the entire trajectory of your career."</p>
+      <span>— MyMentor community</span>
     </div>
+  </div>
+
+  <div id="Land-container" id="register-container">
+    <div id="Land-mobile-brand">MyMentor</div>
+    <div id="register-box">
+      <h1>Create your account</h1>
+      <p class="register-sub">Start your mentorship journey today</p>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="register-btn">Sign Up</button>
+      </form>
+      <div class="register-footer">
+        Already have an account? <a href="{% url 'login' %}">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  // Show red border on fields that have errors
+  document.querySelectorAll('#register-box .errorlist').forEach(function(error) {
+    const input = error.closest('.form-group').querySelector('input');
+    if (input) input.classList.add('is-invalid');
+  });
+</script>
 {% endblock content %}

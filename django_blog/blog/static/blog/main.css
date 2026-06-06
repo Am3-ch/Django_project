@@ -362,4 +362,132 @@ a.article-title:hover {
   }
 }
 
+/* ── Register page ── */
+#register-box {
+  width: 100%;
+  max-width: 420px;
+}
 
+#register-box h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.register-sub {
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  margin-bottom: 28px !important;
+}
+
+/* Crispy form field styling */
+#register-box .form-group label {
+  text-align: left;
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+#register-box input[type="text"],
+#register-box input[type="email"],
+#register-box input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafafa;
+}
+
+#register-box input:focus {
+  border-color: #1E3A5F;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+  background: #fff;
+}
+
+/* Help text under fields */
+#register-box small,
+#register-box .helptext {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* Submit button — matches landing page buttons */
+.register-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 50px;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+
+.register-btn:hover {
+  background-color: #1E3A5F;
+  transform: translateY(-1px);
+}
+
+/* Footer link */
+.register-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.register-footer a {
+  color: #1E3A5F;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Hide help text by default */
+#register-box .helptext,
+#register-box small.text-muted,
+#register-box .form-text {
+  display: none;
+}
+
+/* Only show error messages */
+#register-box .invalid-feedback,
+#register-box .errorlist {
+  display: block;
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+#register-box .errorlist li {
+  list-style: none;
+  padding: 0;
+}
+
+/* Red border on invalid fields */
+#register-box input.is-invalid,
+#register-box .errorlist + input {
+  border-color: #e53e3e !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  #register-box h1 {
+    font-size: 1.5rem;
+  }
+}

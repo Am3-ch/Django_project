@@ -1,21 +1,32 @@
 {% extends 'blog/base.html' %}
-{% load crispy_forms_tags  %}
+{% load crispy_forms_tags %}
+{% block body_class %}no-navbar{% endblock %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-                {% csrf_token %}
-                <fieldsetn class="form-group">
-                        <legend class="border-bottm mb-4">Join Today</legend>
-                        {{ form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Login</button>
-                </div> 
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Need an Account? <a class="ml-2" href="{% url 'register' %}">Sign In</a>
-            </small>
-        </div>
+<div id="Land-wrapper">
+
+  <div id="Land-left-panel">
+    <div id="Land-brand">MyMentor</div>
+    <div id="Land-quote">
+      <p>"The right mentor can change the entire trajectory of your career."</p>
+      <span>— MyMentor community</span>
     </div>
+  </div>
+
+  <div id="Land-container">
+    <div id="register-box">
+      <div id="Land-mobile-brand">MyMentor</div>
+      <h1>Welcome back</h1>
+      <p class="register-sub">Sign in to your account</p>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="register-btn">Sign In</button>
+      </form>
+      <div class="register-footer">
+        Don't have an account? <a href="{% url 'register' %}">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock content %}
