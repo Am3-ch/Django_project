@@ -10,7 +10,7 @@ The goal of this project is to connect like minded people to each other under on
 4. Create an account by registering
   
 ## future updates
-- A tube that holds people in an isolated chart
+- A tube that holds people in an isolated chat
 - A preview of the tube in the home page
 - A better user interface.
 
