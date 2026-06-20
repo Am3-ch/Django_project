@@ -175,6 +175,7 @@ a.article-title:hover {
 .single-button:hover {
   background-color: #1E3A5F;
   transform: translateY(-1px);
+  text-decoration: none;
 }
 
 .single-button strong {
