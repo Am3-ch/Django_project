@@ -20,7 +20,8 @@
         <img class="button-icon" src="../../../media/12484179.png" alt="logo">
         <strong>Create an account</strong>
       </a>
-      <a href="#" class="single-button">
+      {% load socialaccount %}
+      <a href="{% provider_login_url 'google' %}?next=/home" class="single-button">
         <img class="button-icon" src="../../../media/google_logo_icon_169090.webp" alt="logo">
         <strong>Continue with Google</strong>
       </a>
