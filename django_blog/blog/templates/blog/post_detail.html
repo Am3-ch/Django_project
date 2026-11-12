@@ -1,20 +1,56 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" width="30" height="30">
-                <a class="mr-2" href="#">{{ object.author }}</a>
-                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-                {% if object.author == user %}
-                    <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-                    </div>
-                {% endif %}
+    <a class="back-link" href="{% url 'blog-home' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Back to posts
+    </a>
+
+    <article class="post-card post-card-detail">
+        <header class="post-card-header">
+            <div class="post-avatar" aria-hidden="true">{{ post.author.username|first|upper }}</div>
+            <div class="post-heading">
+                <h1 class="post-title">{{ post.title }}</h1>
+                <span class="post-author">started by {{ post.author.username }} · {{ post.author_role }}</span>
             </div>
-            <h2 class="article-title">{{ object.title }}</h2>
-            <p class="article-content">{{ object.content }}</p>
-        </div>
+            <span class="post-status {% if post.is_active %}is-active{% endif %}"
+                  title="{% if post.is_active %}Active{% else %}Inactive{% endif %}"></span>
+        </header>
+
+        <span class="post-kind post-kind-{{ post.kind }}">{{ post.kind_label }}</span>
+
+        <p class="post-body post-body-full">{{ post.content }}</p>
+
+        <footer class="post-card-footer">
+            <span class="post-meta" title="{{ post.date_posted|date:'F d, Y H:i' }}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                active {{ post.age_label }}
+            </span>
+            <span class="post-meta">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.3c2.1.6 3.5 2.6 3.5 5.7"/></svg>
+                {{ member_count }} {{ post.member_role }}{{ member_count|pluralize }}
+            </span>
+        </footer>
     </article>
+
+    <div class="post-actions">
+        {% if can_chat %}
+            <a class="pill-btn pill-btn-primary" href="{% url 'post-chat' post.id %}">Open group chat</a>
+            {% if is_author %}
+                <a class="pill-btn" href="{% url 'post-update' post.id %}">Edit</a>
+                <a class="pill-btn pill-btn-danger" href="{% url 'post-delete' post.id %}">Delete</a>
+            {% else %}
+                <form method="post" action="{% url 'post-leave' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="pill-btn">Leave mentorship</button>
+                </form>
+            {% endif %}
+        {% elif user.is_authenticated %}
+            <form method="post" action="{% url 'post-join' post.id %}">
+                {% csrf_token %}
+                <button type="submit" class="pill-btn pill-btn-primary">Join the group chat as a {{ post.member_role }}</button>
+            </form>
+        {% else %}
+            <a class="pill-btn pill-btn-primary" href="{% url 'login' %}?next={{ request.path|urlencode }}">Sign in to join</a>
+        {% endif %}
+    </div>
 {% endblock content %}

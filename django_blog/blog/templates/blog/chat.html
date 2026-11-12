@@ -1,0 +1,199 @@
+{% extends 'blog/base.html' %}
+{% block body_class %}chat-page{% endblock %}
+{% block content %}
+<section class="chat-card"
+         data-poll-url="{% url 'post-chat-messages' post.id %}"
+         data-last-id="{{ last_id }}">
+
+    <header class="chat-header">
+        <a class="chat-back" href="{% url 'post-detail' post.id %}" aria-label="Back to post">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </a>
+        <div class="chat-head-main">
+            <h1 class="chat-title">{{ post.title }}</h1>
+            <div class="chat-participants">
+                {% for p in participants|slice:":3" %}
+                    {% if not forloop.first %}<span class="chat-sep" aria-hidden="true"></span>{% endif %}
+                    <span class="chat-person">
+                        {% if p.user == user %}
+                            <span class="chat-avatar chat-avatar-you" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg>
+                            </span>
+                            <span class="chat-name">You</span>
+                        {% else %}
+                            <span class="chat-avatar" aria-hidden="true">{{ p.user.username|first|upper }}</span>
+                            <span class="chat-name">{{ p.user.username }}</span>
+                        {% endif %}
+                        <span class="chat-role">· {{ p.role }}</span>
+                    </span>
+                {% endfor %}
+                {% if participants|length > 3 %}
+                    <span class="chat-sep" aria-hidden="true"></span>
+                    <span class="chat-more">+{{ participants|length|add:"-3" }} more</span>
+                {% endif %}
+            </div>
+        </div>
+        <span class="chat-status {% if post.is_live %}is-live{% endif %}" id="chatStatus">
+            {% if post.is_live %}live session{% else %}session{% endif %}
+        </span>
+    </header>
+
+    <div class="chat-messages" id="chatMessages" aria-live="polite">
+        {% if started_at %}
+            <div class="chat-system">session started {{ started_at|date:"M d, H:i" }}</div>
+        {% else %}
+            <div class="chat-system">waiting for a {{ post.member_role }} to join</div>
+        {% endif %}
+        {% for m in chat_messages %}
+            <div class="chat-msg {% if m.mine %}mine{% else %}theirs{% endif %}" data-id="{{ m.id }}" data-sender="{% if m.mine %}__me__{% else %}{{ m.sender }}{% endif %}">
+                {% ifchanged m.sender %}{% if not m.mine %}<span class="chat-sender">{{ m.sender }}</span>{% endif %}{% endifchanged %}
+                <div class="chat-bubble">{{ m.body }}</div>
+                <time class="chat-time">{{ m.time }}</time>
+            </div>
+        {% empty %}
+            <div class="chat-empty" id="chatEmpty">No messages yet. Say hello!</div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="chat-jump" id="chatJump" aria-label="Jump to latest messages" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </button>
+
+    <form class="chat-composer" id="chatForm" method="post" action="{% url 'post-chat-send' post.id %}">
+        {% csrf_token %}
+        <textarea name="body" id="chatInput" rows="1" maxlength="{{ max_length }}"
+                  placeholder="Write a message" aria-label="Message" required></textarea>
+        <button type="submit" class="chat-send" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 3 10 14"/><path d="M21 3l-7 18-4-7-7-4 18-7z"/></svg>
+        </button>
+    </form>
+</section>
+
+<script>
+(function () {
+  const card = document.querySelector('.chat-card');
+  const list = document.getElementById('chatMessages');
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('chatInput');
+  const jump = document.getElementById('chatJump');
+  const status = document.getElementById('chatStatus');
+  const pollUrl = card.dataset.pollUrl;
+  const POLL_MS = 3000;
+
+  let lastId = Number(card.dataset.lastId) || 0;
+  const seen = new Set([...list.querySelectorAll('.chat-msg')].map(el => Number(el.dataset.id)));
+  const rows = list.querySelectorAll('.chat-msg');
+  let lastSender = rows.length ? rows[rows.length - 1].dataset.sender : null;
+
+  const nearBottom = () => list.scrollHeight - list.scrollTop - list.clientHeight < 120;
+  const scrollToBottom = (smooth) => list.scrollTo({ top: list.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
+
+  function addMessage(m) {
+    if (seen.has(m.id)) return false;
+    seen.add(m.id);
+    lastId = Math.max(lastId, m.id);
+    document.getElementById('chatEmpty')?.remove();
+
+    const row = document.createElement('div');
+    row.className = 'chat-msg ' + (m.mine ? 'mine' : 'theirs');
+    row.dataset.id = m.id;
+    const senderKey = m.mine ? '__me__' : m.sender;
+    row.dataset.sender = senderKey;
+    if (!m.mine && senderKey !== lastSender) {
+      const name = document.createElement('span');
+      name.className = 'chat-sender';
+      name.textContent = m.sender;
+      row.appendChild(name);
+    }
+    lastSender = senderKey;
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = m.body;
+    const time = document.createElement('time');
+    time.className = 'chat-time';
+    time.textContent = m.time;
+    row.append(bubble, time);
+    list.appendChild(row);
+    return true;
+  }
+
+  function addMessages(messages, forceScroll) {
+    const stick = forceScroll || nearBottom();
+    let added = false;
+    messages.forEach(m => { added = addMessage(m) || added; });
+    if (!added) return;
+    if (stick) scrollToBottom(true);
+    else jump.hidden = false;
+  }
+
+  function setLive(live) {
+    status.classList.toggle('is-live', live);
+    status.textContent = live ? 'live session' : 'session';
+  }
+
+  // ── Polling ──
+  let timer = null;
+  async function poll() {
+    try {
+      const res = await fetch(pollUrl + '?after=' + lastId, { headers: { 'X-Requested-With': 'fetch' } });
+      if (res.ok) {
+        const data = await res.json();
+        addMessages(data.messages, false);
+        setLive(data.live);
+      }
+    } catch (e) { /* network hiccup: try again next tick */ }
+    schedule();
+  }
+  function schedule() {
+    clearTimeout(timer);
+    if (!document.hidden) timer = setTimeout(poll, POLL_MS);
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); else clearTimeout(timer); });
+
+  // ── Sending ──
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = input.value.trim();
+    if (!body) return;
+    const data = new FormData(form);
+    data.set('body', body);
+    input.value = '';
+    resize();
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'X-Requested-With': 'fetch' } });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Could not send');
+      addMessages([json.message], true);
+      setLive(true);
+    } catch (err) {
+      input.value = body;  // give the text back so nothing is lost
+      resize();
+      alert(err.message || 'Could not send your message. Please try again.');
+    }
+    input.focus();
+  });
+
+  // Enter sends, Shift+Enter adds a new line
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  // Grow the textarea with its content (up to 5 lines, then it scrolls)
+  function resize() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+  }
+  input.addEventListener('input', resize);
+
+  // ── Jump-to-latest button ──
+  list.addEventListener('scroll', () => { jump.hidden = nearBottom(); });
+  jump.addEventListener('click', () => { scrollToBottom(true); jump.hidden = true; });
+
+  scrollToBottom(false);
+  schedule();
+})();
+</script>
+{% endblock content %}

@@ -104,6 +104,18 @@ Django_project/
 | `static/blog/main.css` | Site stylesheet. |
 | `static/blog/img/` | Site images used by the landing page (hero image, button icons). |
 
+### 3.3.1 Mentorship group chat (part of `blog`)
+
+| Piece | Responsibility |
+|---|---|
+| `Post.kind` | `seeking` (author is the mentee; joiners are mentors) or `offering` (author mentors; joiners are mentees). Chosen on the post form. |
+| `Membership` | A user who joined a post's chat (unique per post and user). The author is always a participant without a row. |
+| `Message` | A chat message (`post`, `sender`, `body` up to 2000 chars, `created_at`). |
+| Views | `join_post` / `leave_post` (POST), `chat` (page; author and members only), `send_message` (POST; JSON for the page, redirect fallback without JavaScript), `chat_messages` (JSON, `?after=<id>`). |
+| `templates/blog/chat.html` | Chat UI. Its inline script polls `chat_messages` every 3 s (paused while the tab is hidden), sends with `fetch`, and renders text with `textContent`. |
+
+Messages arrive by **polling**, not WebSockets, so it runs on plain Gunicorn with no Redis. Text only: no attachments.
+
 ### 3.4 Authentication layer
 
 Two parallel login paths share the same `User` table:
@@ -174,6 +186,10 @@ User 1 ── * SocialAccount (Google)
 | `/home/post/new/` | `PostCreateView` | login required |
 | `/home/post/<pk>/update` | `PostUpdateView` | author only |
 | `/home/post/<pk>/delete` | `PostDeleteView` | author only |
+| `/home/post/<pk>/join/`, `/leave/` | `join_post` / `leave_post` (POST) | login required |
+| `/home/post/<pk>/chat/` | `chat` | author or member |
+| `/home/post/<pk>/chat/send/` | `send_message` (POST) | author or member |
+| `/home/post/<pk>/chat/messages/` | `chat_messages` (JSON) | author or member |
 | `/home/about/` | `about` | public |
 | `/accounts/…` | django-allauth | mixed |
 | `/admin/` | Django admin | staff |
