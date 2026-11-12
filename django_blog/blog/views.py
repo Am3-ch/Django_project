@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -35,9 +36,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
     
-class PostDeleteView(UserPassesTestMixin, LoginRequiredMixin ,DeleteView):
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = '/'
+    success_url = reverse_lazy('blog-home')
 
     def test_func(self):
         post = self.get_object()
