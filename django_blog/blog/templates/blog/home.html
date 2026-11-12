@@ -1,16 +1,33 @@
 {% extends 'blog/base.html' %}
 {% block content %}
     {% for post in posts %}
-       <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" width="30" height="30">
-                    <a class="mr-2" href="#">{{ post.author }}</a>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        <article class="post-card">
+            <header class="post-card-header">
+                <div class="post-avatar" aria-hidden="true">{{ post.author.username|first|upper }}</div>
+                <div class="post-heading">
+                    <h2 class="post-title">
+                        <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                    </h2>
+                    <span class="post-author">started by {{ post.author.username }}</span>
                 </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
-            </div>
+                <span class="post-status {% if post.is_active %}is-active{% endif %}"
+                      title="{% if post.is_active %}Active{% else %}Inactive{% endif %}"></span>
+            </header>
+
+            <p class="post-body">{{ post.content }}</p>
+
+            <footer class="post-card-footer">
+                <span class="post-meta" title="{{ post.date_posted|date:'F d, Y H:i' }}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    active {{ post.age_label }}
+                </span>
+                <span class="post-meta">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.3c2.1.6 3.5 2.6 3.5 5.7"/></svg>
+                    0 mentees
+                </span>
+            </footer>
         </article>
+    {% empty %}
+        <p class="text-muted">No posts yet.</p>
     {% endfor %}
 {% endblock content %}

@@ -1,0 +1,684 @@
+body {
+  background: #ffffff;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+ul {
+  margin: 0;
+}
+
+.bg-steel {
+  background-color: #1E3A5F;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #F5F5F5;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  border-color: #F4A261;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+  margin-bottom: 4px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #F4A261
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.media-body {
+  padding-top: 20px;
+  position: sticky;
+  min-width: 0;
+}
+
+.account-heading {
+   font-size: 200%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-secondary {
+  font-size: 100%;
+  word-break: break-word;
+}
+
+/* ── Home feed: post cards ── */
+.post-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px 28px 16px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.post-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 10px rgba(17, 24, 39, 0.06);
+}
+
+.post-card-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.post-avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #dbe7f6;
+  color: #1E3A5F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.post-heading {
+  flex: 1;
+  min-width: 0; /* lets long titles wrap instead of overflowing */
+}
+
+.post-title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.post-title a {
+  color: #111827;
+  text-decoration: none;
+}
+
+/* Make the whole card clickable via the title link */
+.post-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+}
+
+.post-title a:hover {
+  color: #1E3A5F;
+  text-decoration: none;
+}
+
+.post-author {
+  display: block;
+  margin-top: 2px;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.post-status {
+  flex-shrink: 0;
+  align-self: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d1d5db;
+}
+
+.post-status.is-active {
+  background: #2e7d32;
+}
+
+.post-body {
+  margin: 20px 0 16px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #374151;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  /* Long posts are cut to 4 lines in the feed */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.post-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.post-meta svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 576px) {
+  .post-card {
+    padding: 16px 16px 12px;
+    border-radius: 12px;
+  }
+
+  .post-title a::after {
+    border-radius: 12px;
+  }
+
+  .post-card-header {
+    gap: 12px;
+  }
+
+  .post-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .post-title {
+    font-size: 17px;
+  }
+
+  .post-author,
+  .post-meta {
+    font-size: 13px;
+  }
+
+  .post-body {
+    margin: 14px 0 12px;
+    font-size: 15px;
+  }
+
+  .post-meta svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ── Full-screen pages (landing, login, register): body has class "no-navbar" ── */
+body.no-navbar {
+  margin-top: 0;
+  overflow: hidden;
+}
+
+.no-navbar .site-header {
+  display: none;
+}
+
+/* Break out of Bootstrap's container/row/col */
+.no-navbar main.container {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.no-navbar main .row {
+  margin: 0 !important;
+}
+
+.no-navbar main .col-md-8 {
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  padding: 0 !important;
+}
+
+/* ── Wrapper: pinned to the viewport so the page itself never scrolls ── */
+.no-navbar #Land-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;   /* fallback for older browsers */
+  height: 100dvh;  /* tracks mobile browser toolbars */
+  display: flex;
+}
+
+/* ── Left decorative panel (hidden on mobile) ── */
+#Land-left-panel {
+  display: none;
+}
+
+/* ── Right content panel ── */
+#Land-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  background: #ffffff;
+  height: 100%;
+  /* Only very short screens (or long form errors) scroll, and only inside this panel */
+  overflow-y: auto;
+}
+
+#Land-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+  max-width: 360px;
+  margin-bottom: 28px;
+}
+
+#Land-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 32px;
+  border: 3px solid #e8eef6;
+  box-shadow: 0 0 0 6px rgba(30, 58, 95, 0.08);
+}
+
+/* ── Buttons ── */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 24px;
+}
+
+.single-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  background-color: #111827;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+
+.single-button:hover {
+  background-color: #1E3A5F;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.single-button strong {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.button-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.12);
+  border-radius: 50%;
+  padding: 4px;
+}
+
+/* ── Sign in link ── */
+#Land-container p {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.sign-in-link {
+  color: #1E3A5F;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sign-in-link:hover {
+  text-decoration: underline;
+}
+
+#Land-left-panel {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+#Land-quote {
+  display: none;
+}
+
+#Land-brand {
+  display: none;
+}
+
+#Land-mobile-brand {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1E3A5F;
+  letter-spacing: 0.03em;
+  margin-bottom: 32px;
+}
+
+/* DESKTOP  (769px and above) */
+@media (min-width: 769px) {
+
+  #Land-mobile-brand {
+    display: none;
+  }
+
+  #Land-brand {
+    display: block;
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  #Land-quote {
+    display: block !important;
+    padding: 0 32px 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    word-break: break-word;
+  }
+
+  .no-navbar #Land-left-panel {
+    display: block;
+    width: 35%;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: #1E3A5F;
+    background-image:
+      radial-gradient(ellipse at 30% 65%, rgba(255, 200, 100, 0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 20%, rgba(100, 160, 255, 0.11) 0%, transparent 50%),
+      radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+    background-size: auto, auto, 22px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .no-navbar #Land-container {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    overflow-y: auto;
+    background: #ffffff;
+  }
+
+  #Land-quote p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  #Land-quote span {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+}
+
+
+/* MOBILE  (768px and below) */
+@media (max-width: 768px) {
+
+  /* Tighter spacing so everything fits on one phone screen */
+  #Land-container {
+    padding: 24px 20px;
+  }
+
+  #Land-mobile-brand {
+    margin-bottom: 20px;
+  }
+
+  #Land-container h1 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  #Land-img {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 24px;
+  }
+
+  .button-container {
+    max-width: 270px;
+  }
+}
+
+/* ── Register page ── */
+#register-box {
+  width: 100%;
+  max-width: 420px;
+}
+
+#register-box h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.register-sub {
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  margin-bottom: 28px !important;
+}
+
+/* Crispy form field styling */
+#register-box .form-group label {
+  text-align: left;
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+#register-box input[type="text"],
+#register-box input[type="email"],
+#register-box input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafafa;
+}
+
+#register-box input:focus {
+  border-color: #1E3A5F;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+  background: #fff;
+}
+
+/* Help text under fields */
+#register-box small,
+#register-box .helptext {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* Submit button — matches landing page buttons */
+.register-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 50px;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+
+.register-btn:hover {
+  background-color: #1E3A5F;
+  transform: translateY(-1px);
+}
+
+/* Footer link */
+.register-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.register-footer a {
+  color: #1E3A5F;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Hide help text by default */
+#register-box .helptext,
+#register-box small.text-muted,
+#register-box .form-text {
+  display: none;
+}
+
+/* Only show error messages */
+#register-box .invalid-feedback,
+#register-box .errorlist {
+  display: block;
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+#register-box .errorlist li {
+  list-style: none;
+  padding: 0;
+}
+
+/* Red border on invalid fields */
+#register-box input.is-invalid,
+#register-box .errorlist + input {
+  border-color: #e53e3e !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  #register-box h1 {
+    font-size: 1.5rem;
+  }
+
+  .register-sub {
+    margin-bottom: 18px !important;
+  }
+
+  #register-box .form-group {
+    margin-bottom: 12px;
+  }
+
+  .register-btn {
+    margin-top: 12px;
+  }
+
+  .register-footer {
+    margin-top: 14px;
+  }
+}
